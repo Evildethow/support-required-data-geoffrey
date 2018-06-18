@@ -38,7 +38,7 @@ EOM
 # Constants
 
 readonly REMOTE_BASE_URL="https://github.com/cloudbees/support-required-data-geoffrey"
-reeaonly REMOTE_REPO="${REMOTE_BASE_URL}/raw/master"
+readonly REMOTE_REPO="${REMOTE_BASE_URL}/raw/master"
 
 # Functions
 
@@ -95,5 +95,8 @@ for i in "${!ARGS[@]}"; do
       usage
       exit 0
     ;;
+    *)
+			usage
+      ;;
   esac
 done
