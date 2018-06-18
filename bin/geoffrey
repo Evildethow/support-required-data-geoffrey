@@ -67,6 +67,7 @@ for i in "${!ARGS[@]}"; do
 			else
 				echo "PID not set. Use --pid option." && exit 1
 			fi
+			exit 0
     ;;
 		memory)
 			if [[ -z "${PID}" ]] || [[ "${PID}" == "NA" ]]; then
@@ -74,6 +75,7 @@ for i in "${!ARGS[@]}"; do
 			else
 				echo "PID not set. Use --pid option." && exit 1
 			fi
+			exit 0
     ;;
     io)
     	if [[ -z "${JENKINS_HOME}" ]] || [[ "${JENKINS_HOME}" == "NA" ]]; then
@@ -81,9 +83,11 @@ for i in "${!ARGS[@]}"; do
 			else
 				echo "JENKINS_HOME not set. Use --jenkins option." && exit 1
 			fi
+			exit 0
     ;;
 		update)
     	bash "${HERE}/../install.sh"
+    	exit 0
     ;;
 		-p|--pid)
 			PID=${ARGS[2]}
