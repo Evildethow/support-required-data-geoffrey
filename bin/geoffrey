@@ -1,0 +1,94 @@
+#!/usr/bin/env bash
+#
+# Geoffrey the butler. Helps diagnose problems with your CJP instance.
+#
+
+HERE="$( cd -P "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+# Usage
+
+usage() {
+    cat <<EOM
+    Say hello to Geoffrey the butler! He is here to help you diagnose problems with your CJP instance.
+
+    Usage:
+      $(basename $0) [OPTIONS] [COMMAND]
+      $(basename $0) [ -p <PID> | --pid <PID> | -j <JENKINS_HOME> | --jenkins <JENKINS_HOME> | -h | --help ]
+
+    Options:
+    	-p, --pid				Jenkins PID. By default Geoffrey will try and detect this for you.
+    	-j, --jenkins		Jenkins home location. By default Geoffrey will try and detect this for you.
+			-h, --help			Show usage.
+
+    Commands:
+    	high-cpu				Diagnose high CPU issues. See https://support.cloudbees.com/hc/en-us/articles/229795948
+    	memory					Diagnose memory issues. See https://support.cloudbees.com/hc/en-us/articles/115001122568
+      io							Diagnose IO issues. See https://support.cloudbees.com/hc/en-us/articles/115003442371
+
+											NOTE: Options must come before commands.
+
+    Example:
+      $(basename $0) high-cpu
+      $(basename $0) --pid 1234 --jenkins /var/lib/jenkins memory
+EOM
+    exit 1
+}
+
+# Constants
+
+readonly REMOTE_REPO=https://github.com/cloudbees/support-required-data-geoffrey
+
+# Functions
+
+get_jenkins_home() {
+	echo "${JENKINS_HOME:-NA}"
+}
+
+get_jenkins_pid() {
+	local pid=$(ps -ef | grep jenkins | grep -v grep | awk '{print $2}' | tail -n 1)
+	echo "${pid:-NA}"
+}
+
+# Input & Execution
+
+PID="${PID:-$(get_jenkins_pid)}"
+JENKINS_HOME="${JENKINS_HOME:-$(get_jenkins_home)}"
+
+ARGS=( $@ )
+for i in "${!ARGS[@]}"; do
+  arg="${ARGS[${i}]}"
+
+  case "${arg}" in
+		high-cpu)
+			if [[ -z "${PID}" ]] || [[ "${PID}" == "NA" ]]; then
+				bash <(curl -s "${REMOTE_REPO}/lib/linux/jenkinshangWithJstack.sh ${PID}")
+			else
+				echo "PID not set. Use --pid option." && exit 1
+			fi
+    ;;
+		memory)
+			if [[ -z "${PID}" ]] || [[ "${PID}" == "NA" ]]; then
+				bash <(curl -s "${REMOTE_REPO}/lib/linux/jenkinsjmap.sh ${PID}")
+			else
+				echo "PID not set. Use --pid option." && exit 1
+			fi
+    ;;
+    io)
+    	if [[ -z "${JENKINS_HOME}" ]] || [[ "${JENKINS_HOME}" == "NA" ]]; then
+				bash <(curl -s "${REMOTE_REPO}/lib/linux/testIO.sh ${JENKINS_HOME}")
+			else
+				echo "JENKINS_HOME not set. Use --jenkins option." && exit 1
+			fi
+    ;;
+		-p|--pid)
+			PID=${ARGS[2]}
+		;;
+		-j|--jenkins)
+			JENKINS_HOME=${ARGS[2]}
+		;;
+		-h|--help)
+      usage
+      exit 0
+    ;;
+  esac
+done
