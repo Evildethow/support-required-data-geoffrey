@@ -37,7 +37,8 @@ EOM
 
 # Constants
 
-readonly REMOTE_REPO=https://github.com/cloudbees/support-required-data-geoffrey
+readonly REMOTE_BASE_URL="https://github.com/cloudbees/support-required-data-geoffrey"
+reeaonly REMOTE_REPO="${REMOTE_BASE_URL}/raw/master"
 
 # Functions
 
@@ -62,21 +63,21 @@ for i in "${!ARGS[@]}"; do
   case "${arg}" in
 		high-cpu)
 			if [[ -z "${PID}" ]] || [[ "${PID}" == "NA" ]]; then
-				bash <(curl -s "${REMOTE_REPO}/lib/linux/jenkinshangWithJstack.sh ${PID}")
+				bash <(curl -L -s "${REMOTE_REPO}/lib/linux/jenkinshangWithJstack.sh ${PID}")
 			else
 				echo "PID not set. Use --pid option." && exit 1
 			fi
     ;;
 		memory)
 			if [[ -z "${PID}" ]] || [[ "${PID}" == "NA" ]]; then
-				bash <(curl -s "${REMOTE_REPO}/lib/linux/jenkinsjmap.sh ${PID}")
+				bash <(curl -L -s "${REMOTE_REPO}/lib/linux/jenkinsjmap.sh ${PID}")
 			else
 				echo "PID not set. Use --pid option." && exit 1
 			fi
     ;;
     io)
     	if [[ -z "${JENKINS_HOME}" ]] || [[ "${JENKINS_HOME}" == "NA" ]]; then
-				bash <(curl -s "${REMOTE_REPO}/lib/linux/testIO.sh ${JENKINS_HOME}")
+				bash <(curl -L -s "${REMOTE_REPO}/lib/linux/testIO.sh ${JENKINS_HOME}")
 			else
 				echo "JENKINS_HOME not set. Use --jenkins option." && exit 1
 			fi
