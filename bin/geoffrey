@@ -24,6 +24,7 @@ usage() {
     	high-cpu				Diagnose high CPU issues. See https://support.cloudbees.com/hc/en-us/articles/229795948
     	memory					Diagnose memory issues. See https://support.cloudbees.com/hc/en-us/articles/115001122568
       io							Diagnose IO issues. See https://support.cloudbees.com/hc/en-us/articles/115003442371
+      update					Update this tool. Always a good idea. You might find something new!
 
 											NOTE: Options must come before commands.
 
@@ -79,6 +80,9 @@ for i in "${!ARGS[@]}"; do
 			else
 				echo "JENKINS_HOME not set. Use --jenkins option." && exit 1
 			fi
+    ;;
+		update)
+    	bash "${HERE}/../install.sh"
     ;;
 		-p|--pid)
 			PID=${ARGS[2]}
