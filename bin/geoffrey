@@ -12,25 +12,25 @@ usage() {
     Say hello to Geoffrey the butler! He is here to help you diagnose problems with your CJP instance.
 
     Usage:
-      $(basename $0) [OPTIONS] [COMMAND]
-      $(basename $0) [ -p <PID> | --pid <PID> | -j <JENKINS_HOME> | --jenkins <JENKINS_HOME> | -h | --help ]
+                      $(basename $0) [OPTIONS] [COMMAND]
+                      $(basename $0) [ -p <PID> | --pid <PID> | -j <JENKINS_HOME> | --jenkins <JENKINS_HOME> | -h | --help ]
 
     Options:
-    	-p, --pid				Jenkins PID. By default Geoffrey will try and detect this for you.
-    	-j, --jenkins		Jenkins home location. By default Geoffrey will try and detect this for you.
-			-h, --help			Show usage.
+      -p, --pid       Jenkins PID. By default Geoffrey will try and detect this for you.
+      -j, --jenkins   Jenkins home location. By default Geoffrey will try and detect this for you.
+      -h, --help      Show usage.
 
     Commands:
-    	high-cpu				Diagnose high CPU issues. See https://support.cloudbees.com/hc/en-us/articles/229795948
-    	memory					Diagnose memory issues. See https://support.cloudbees.com/hc/en-us/articles/115001122568
-      io							Diagnose IO issues. See https://support.cloudbees.com/hc/en-us/articles/115003442371
-      update					Update this tool. Always a good idea. You might find something new!
+      high-cpu        Diagnose high CPU issues. See https://support.cloudbees.com/hc/en-us/articles/229795948
+      memory          Diagnose memory issues. See https://support.cloudbees.com/hc/en-us/articles/115001122568
+      io              Diagnose IO issues. See https://support.cloudbees.com/hc/en-us/articles/115003442371
+      update          Update this tool. Always a good idea. You might find something new!
 
-											NOTE: Options must come before commands.
+                      NOTE: Options must come before commands.
 
-    Example:
-      $(basename $0) high-cpu
-      $(basename $0) --pid 1234 --jenkins /var/lib/jenkins memory
+    Examples:
+                      $(basename $0) high-cpu
+                      $(basename $0) --pid 1234 --jenkins /var/lib/jenkins memory
 EOM
     exit 1
 }
