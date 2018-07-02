@@ -1,0 +1,84 @@
+#!/usr/bin/env bash
+
+#set -x
+
+HERE="$( cd -P "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+# shellcheck source=../../lib/linux/core/env.sh
+source "$HERE/../../lib/linux/core/env.sh"
+
+# Validation
+
+if [ $# -gt 0 ]; then
+  GEOFFREY_COMMAND="${1}"
+else
+  echo "No command offered. Try $(basename $0) help" && exit 0
+fi
+
+# Functions
+
+get_jenkins_pid() {
+  local pid=$(ps -ef | grep jenkins | grep -v grep | awk '{print $2}' | tail -n 1)
+  echo "${pid:-NA}"
+}
+
+set_cmd_profile() {
+  for cmd in "${GEOFFREY_APPLICATION_LIST[@]}"; do
+      if [[ "${GEOFFREY_COMMAND}" == "${cmd}" ]]; then
+        GEOFFREY_TEMPLATE_PROFILE=application
+        return
+      fi
+  done
+
+  for cmd in "${GEOFFREY_CORE_APPLICATION_LIST[@]}"; do
+      if [ "${GEOFFREY_COMMAND}" == "${cmd}" ]; then
+        GEOFFREY_TEMPLATE_PROFILE=core
+        return
+      fi
+  done
+
+  if [ "${GEOFFREY_PROFILE}" == "development" ]; then
+    for cmd in "${GEOFFREY_DEVELOPMENT_APPLICATION_LIST[@]}"; do
+      if [ "${GEOFFREY_COMMAND}" == "${cmd}" ]; then
+        GEOFFREY_TEMPLATE_PROFILE=development
+        return
+      fi
+    done
+  fi
+  exit 1
+}
+
+# Arguments
+
+PID="${PID:-$(get_jenkins_pid)}"
+JENKINS_HOME="${JENKINS_HOME:-}"
+DRY_RUN="${DRY_RUN:-false}"
+GEOFFREY_MODE="${GEOFFREY_MODE:-online}"
+GEOFFREY_PROFILE="${GEOFFREY_PROFILE:-application}"
+
+ARGS=( $@ )
+for i in "${!ARGS[@]}"; do
+  arg="${ARGS[${i}]}"
+
+  case "${arg}" in
+    -p|--pid)
+      PID="${ARGS[$((i+1))]}"
+    ;;
+    -d|--dry-run)
+      DRY_RUN=true
+    ;;
+    -j|--jenkins)
+      JENKINS_HOME="${ARGS[$((i+1))]}"
+    ;;
+    -m|--mode)
+      GEOFFREY_MODE="${ARGS[$((i+1))]}"
+    ;;
+    --profile)
+      GEOFFREY_PROFILE="${ARGS[$((i+1))]}"
+    ;;
+  esac
+done
+
+# Execution
+
+set_cmd_profile && source "${GEOFFREY_CONF}/${GEOFFREY_TEMPLATE_PROFILE}/${GEOFFREY_COMMAND}.properties" 2>/dev/null; . "${GEOFFREY_LIB}/${GEOFFREY_TEMPLATE_PROFILE}/${GEOFFREY_COMMAND}.sh" || printf "Command [${GEOFFREY_COMMAND}] not found. \n\nTry \n\n $(basename $0) help\n\nto see a list of all commands.\n"

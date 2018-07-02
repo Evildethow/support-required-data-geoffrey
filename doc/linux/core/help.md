@@ -1,0 +1,1 @@
+Print command help to stdout.
