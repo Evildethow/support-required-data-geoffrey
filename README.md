@@ -41,7 +41,8 @@ scp "${HOME}/geoffrey" ${JENKINS_USER_ID}@${JENKINS_HOST}:/home/${JENKINS_USER_I
 # SSH to the host 
 ssh ${JENKINS_USER_ID}@${JENKINS_HOST}
 # Extract the project
-unzip -j "${HOME}/${GEOFFREY_REMOTE_BRANCH:-master}.zip" -d "${HOME}/geoffrey"
+unzip ${HOME}/${GEOFFREY_REMOTE_BRANCH:-master}.zip -d /tmp
+mv /tmp/support-required-data-geoffrey ${HOME}/geoffrey
 # Setup Geoffrey environment
 printf "\n\nGEOFFREY_MODE=offline\n\n" >> ${HOME}/.geoffrey
 printf "\n\nsource ${HOME}/.geoffrey\n\n" >> ${HOME}/.bashrc
