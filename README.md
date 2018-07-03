@@ -21,7 +21,7 @@ Geoffrey needs to be installed on the machine running Jenkins.
 Requires a connection to https://github.com
 
 ```bash
-curl -sL "https://raw.githubusercontent.com/cloudbees/support-required-data-geoffrey/master/install.sh" | bash -s --
+curl -sL "https://raw.githubusercontent.com/cloudbees/support-required-data-geoffrey/${GEOFFREY_REMOTE_BRANCH:-master}/install.sh" | bash -s --
 ```
 
 Geoffrey will take care of the rest for you.
@@ -34,14 +34,14 @@ Geoffrey can be manually installed using the following steps:
 # Setup environment first (your values go here)
 JENKINS_USER_ID=jenkins
 JENKINS_HOST=my.jenkins.host
-# Download the project master branch from Github as a zip file
-curl -L -o "${HOME}/master.zip" "https://github.com/cloudbees/support-required-data-geoffrey/archive/master.zip"
+# Download the project  branch from Github as a zip file
+curl -L -o "${HOME}/${GEOFFREY_REMOTE_BRANCH:-master}.zip" "https://github.com/cloudbees/support-required-data-geoffrey/archive/${GEOFFREY_REMOTE_BRANCH:-master}.zip"
 # Copy it to the server hosting Jenkins. 
 scp "${HOME}/geoffrey" ${JENKINS_USER_ID}@${JENKINS_HOST}:/home/${JENKINS_USER_ID}
 # SSH to the host 
 ssh ${JENKINS_USER_ID}@${JENKINS_HOST}
 # Extract the project
-"${HOME}/master.zip" -d "${HOME}/geoffrey"
+unzip -j "${HOME}/${GEOFFREY_REMOTE_BRANCH:-master}.zip" -d "${HOME}/geoffrey"
 # Setup Geoffrey environment
 printf "\n\nGEOFFREY_MODE=offline\n\n" >> ${HOME}/.geoffrey
 printf "\n\nsource ${HOME}/.geoffrey\n\n" >> ${HOME}/.bashrc

@@ -19,7 +19,7 @@ case "${GEOFFREY_MODE}" in
 
     # Install/Update local copy
     _REMOTE_ZIP="${HOME}/${GEOFFREY_REMOTE_BRANCH:-master}.zip"
-    mkdir -p "${GEOFFREY_HOME}" && curl -L -o "${_REMOTE_ZIP}" "https://github.com/cloudbees/support-required-data-geoffrey/archive/${GEOFFREY_REMOTE_BRANCH:-master}.zip" && unzip "${_REMOTE_ZIP}" -d "${GEOFFREY_HOME}"
+    mkdir -p "${GEOFFREY_HOME}" && curl -L -o "${_REMOTE_ZIP}" "https://github.com/cloudbees/support-required-data-geoffrey/archive/${GEOFFREY_REMOTE_BRANCH:-master}.zip" && unzip -j "${_REMOTE_ZIP}" -d "${GEOFFREY_HOME}"
   ;;
   *)
     echo "UNKNOWN GEOFFREY_MODE23: ${GEOFFREY_MODE}" && exit 1
