@@ -24,7 +24,7 @@ case "${GEOFFREY_MODE:-online}" in
     rm -rf "${GEOFFREY_HOME:-${HOME}/geoffrey}"
     unzip -qq "${_REMOTE_ZIP}" -d /tmp
     mv /tmp/support-required-data-geoffrey-${GEOFFREY_REMOTE_BRANCH:-master} "${GEOFFREY_HOME:-${HOME}/geoffrey}"
-
+    mkdir "${GEOFFREY_HOME:-${HOME}/geoffrey}/logs"
   ;;
   *)
     echo "UNKNOWN GEOFFREY_MODE: ${GEOFFREY_MODE}" && exit 1
