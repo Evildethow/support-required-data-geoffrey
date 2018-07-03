@@ -20,17 +20,19 @@ case "${GEOFFREY_MODE:-online}" in
     # Install/Update local copy
     _REMOTE_ZIP="${HOME}/${GEOFFREY_REMOTE_BRANCH:-master}.zip"
     curl -L -o "${_REMOTE_ZIP}" "https://github.com/cloudbees/support-required-data-geoffrey/archive/${GEOFFREY_REMOTE_BRANCH:-master}.zip" 2>/dev/null
+    rm -rf /tmp/support-required-data-geoffrey-${GEOFFREY_REMOTE_BRANCH:-master}
+    rm -rf "${GEOFFREY_HOME:-${HOME}/geoffrey}"
     unzip -qq "${_REMOTE_ZIP}" -d /tmp
-    mv /tmp/support-required-data-geoffrey-${GEOFFREY_REMOTE_BRANCH:-master} "${GEOFFREY_HOME}"
+    mv /tmp/support-required-data-geoffrey-${GEOFFREY_REMOTE_BRANCH:-master} "${GEOFFREY_HOME:-${HOME}/geoffrey}"
 
   ;;
   *)
     echo "UNKNOWN GEOFFREY_MODE: ${GEOFFREY_MODE}" && exit 1
 esac
 
-GEOFFREY_APPLICATION_LIST=($(ls -1 ${GEOFFREY_HOME}/lib/linux/application/ | sed -e 's/\..*$//' | tr '\r\n' ' '))
-GEOFFREY_CORE_APPLICATION_LIST=($(ls -1 ${GEOFFREY_HOME}/lib/linux/core/ | sed -e 's/\..*$//' | tr '\r\n' ' '))
-GEOFFREY_DEVELOPMENT_APPLICATION_LIST=($(ls -1 ${GEOFFREY_HOME}/lib/linux/development/ | sed -e 's/\..*$//' | tr '\r\n' ' '))
+GEOFFREY_APPLICATION_LIST=($(ls -1 ${GEOFFREY_HOME:-${HOME}/geoffrey}/lib/linux/application/ | sed -e 's/\..*$//' | tr '\r\n' ' '))
+GEOFFREY_CORE_APPLICATION_LIST=($(ls -1 ${GEOFFREY_HOME:-${HOME}/geoffrey}/lib/linux/core/ | sed -e 's/\..*$//' | tr '\r\n' ' '))
+GEOFFREY_DEVELOPMENT_APPLICATION_LIST=($(ls -1 ${GEOFFREY_HOME:-${HOME}/geoffrey}/lib/linux/development/ | sed -e 's/\..*$//' | tr '\r\n' ' '))
 
 # Load overrides
 
