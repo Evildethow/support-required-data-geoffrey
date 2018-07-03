@@ -14,12 +14,12 @@ case "${GEOFFREY_MODE:-online}" in
     source "${HERE}/../../../${_ENV_PROPS_PROJECT_PATH}"
   ;;
   online)
-    curl -L -o /tmp/env.properties "https://raw.githubusercontent.com/cloudbees/support-required-data-geoffrey/${GEOFFREY_REMOTE_BRANCH:-master}/conf/linux/core/env.properties"
+    curl -L -o /tmp/env.properties "https://raw.githubusercontent.com/cloudbees/support-required-data-geoffrey/${GEOFFREY_REMOTE_BRANCH:-master}/conf/linux/core/env.properties" 2>/dev/null
     source /tmp/env.properties
 
     # Install/Update local copy
     _REMOTE_ZIP="${HOME}/${GEOFFREY_REMOTE_BRANCH:-master}.zip"
-    curl -L -o "${_REMOTE_ZIP}" "https://github.com/cloudbees/support-required-data-geoffrey/archive/${GEOFFREY_REMOTE_BRANCH:-master}.zip"
+    curl -L -o "${_REMOTE_ZIP}" "https://github.com/cloudbees/support-required-data-geoffrey/archive/${GEOFFREY_REMOTE_BRANCH:-master}.zip" 2>/dev/null
     unzip -qq "${_REMOTE_ZIP}" -d /tmp
     mv /tmp/support-required-data-geoffrey-${GEOFFREY_REMOTE_BRANCH:-master} "${GEOFFREY_HOME}"
 
