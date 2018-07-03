@@ -14,7 +14,7 @@ case "${GEOFFREY_MODE:-online}" in
   ;;
   online)
     GEOFFREY_MODE=online
-    curl -L -o /tmp/env.sh "https://raw.githubusercontent.com/cloudbees/support-required-data-geoffrey/${GEOFFREY_REMOTE_BRANCH:-master}/lib/linux/core/env.sh"
+    curl -L -o /tmp/env.sh "https://raw.githubusercontent.com/cloudbees/support-required-data-geoffrey/${GEOFFREY_REMOTE_BRANCH:-master}/lib/linux/core/env.sh" 2>/dev/null
     chmod +x /tmp/env.sh && . /tmp/env.sh
   ;;
   *)
