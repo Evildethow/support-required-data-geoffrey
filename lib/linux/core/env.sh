@@ -8,7 +8,7 @@ HERE="$( cd -P "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 _ENV_PROPS_PROJECT_PATH="conf/linux/core/env.properties"
 
-case "${GEOFFREY_MODE}" in
+case "${GEOFFREY_MODE:-online}" in
   offline)
     HERE="$( cd -P "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
     source "${HERE}/../../../${_ENV_PROPS_PROJECT_PATH}"
@@ -20,12 +20,12 @@ case "${GEOFFREY_MODE}" in
     # Install/Update local copy
     _REMOTE_ZIP="${HOME}/${GEOFFREY_REMOTE_BRANCH:-master}.zip"
     curl -L -o "${_REMOTE_ZIP}" "https://github.com/cloudbees/support-required-data-geoffrey/archive/${GEOFFREY_REMOTE_BRANCH:-master}.zip"
-    unzip "${_REMOTE_ZIP}" -d /tmp
+    unzip -qq "${_REMOTE_ZIP}" -d /tmp
     mv /tmp/support-required-data-geoffrey-${GEOFFREY_REMOTE_BRANCH:-master} "${GEOFFREY_HOME}"
 
   ;;
   *)
-    echo "UNKNOWN GEOFFREY_MODE23: ${GEOFFREY_MODE}" && exit 1
+    echo "UNKNOWN GEOFFREY_MODE: ${GEOFFREY_MODE}" && exit 1
 esac
 
 GEOFFREY_APPLICATION_LIST=($(ls -1 ${GEOFFREY_HOME}/lib/linux/application/ | sed -e 's/\..*$//' | tr '\r\n' ' '))

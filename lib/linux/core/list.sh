@@ -2,7 +2,7 @@
 
 HERE="$( cd -P "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-case "${GEOFFREY_PROFILE}" in
+case "${GEOFFREY_PROFILE:-application}" in
   application)
     echo ${GEOFFREY_APPLICATION_LIST[@]} ${GEOFFREY_CORE_APPLICATION_LIST[@]}
   ;;
