@@ -18,7 +18,7 @@ fi
 # Functions
 
 get_jenkins_pid() {
-  local pid=$(ps -ef | grep jenkins | grep -v grep | awk '{print $2}' | tail -n 1)
+  local pid=$(ps -ef | grep jenkins | grep java | grep -v grep | awk '{print $2}' | tail -n 1)
   echo "${pid:-NA}"
 }
 

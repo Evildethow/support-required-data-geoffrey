@@ -107,6 +107,7 @@ HERE="$(pwd)"
 echo $(date) "Copying ${GEOFFREY_HIGH_CPU_OUTPUT_TAR}"
 cd "${GEOFFREY_APPLICATION_TEMP_DIR}"
 tar -cf "${GEOFFREY_HIGH_CPU_OUTPUT_TAR}" topOutput topdashHOutput mode.txt jstack vmstat netstat iostat nfsiostat nfsstat
+rm -f "../${GEOFFREY_HIGH_CPU_OUTPUT_TAR}"
 cp "${GEOFFREY_HIGH_CPU_OUTPUT_TAR}" ..
 
 # GZip the tar file to create jenkinshangWithJstack.$pid.tar.gz
@@ -117,7 +118,7 @@ echo $(date) "Cleanup files"
 rm -r "${GEOFFREY_APPLICATION_TEMP_DIR}"
 
 echo $(date) "Moving back to current dir $HERE"
-cd $HERE
+cd ${HERE}
 
 # Notify end user
 echo $(date) "The temporary folder ${GEOFFREY_APPLICATION_TEMP_DIR} has been deleted"
