@@ -21,7 +21,7 @@ Geoffrey needs to be installed on the machine running Jenkins.
 Requires a connection to https://github.com
 
 ```bash
-curl "https://github.com/cloudbees/support-required-data-geoffrey/install.sh" | bash -s --
+curl -sL "https://raw.githubusercontent.com/cloudbees/support-required-data-geoffrey/master/install.sh" | bash -s --
 ```
 
 Geoffrey will take care of the rest for you.
