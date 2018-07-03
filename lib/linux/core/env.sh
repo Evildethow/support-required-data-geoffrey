@@ -19,7 +19,7 @@ case "${GEOFFREY_MODE}" in
 
     # Install/Update local copy
     _REMOTE_ZIP="${HOME}/${GEOFFREY_REMOTE_BRANCH:-master}.zip"
-    mkdir -p "${GEOFFREY_HOME}" && curl -L -o "${_REMOTE_ZIP}" "https://github.com/cloudbees/support-required-data-geoffrey/archive/${GEOFFREY_REMOTE_BRANCH:-master}.zip"
+    curl -L -o "${_REMOTE_ZIP}" "https://github.com/cloudbees/support-required-data-geoffrey/archive/${GEOFFREY_REMOTE_BRANCH:-master}.zip"
     unzip "${_REMOTE_ZIP}" -d /tmp
     mv /tmp/support-required-data-geoffrey-${GEOFFREY_REMOTE_BRANCH:-master} "${GEOFFREY_HOME}"
 
